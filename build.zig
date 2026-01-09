@@ -271,6 +271,9 @@ pub fn build(b: *std.Build) void {
                 if (b.lazyDependency("zgpu", .{})) |zgpu| {
                     imgui.root_module.addIncludePath(zgpu.path("libs/dawn/include"));
                 }
+                // Native WebGPU requires specifying the backend implementation.
+                // When using zgpu (Dawn), define IMGUI_IMPL_WEBGPU_BACKEND_DAWN.
+                imgui.root_module.addCMacro("IMGUI_IMPL_WEBGPU_BACKEND_DAWN", "");
             }
             imgui.root_module.addCSourceFiles(.{
                 .files = &.{
